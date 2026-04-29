@@ -1,7 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 
-//Calculadora, operaciones: /, -, *, /, ^, r (raiz cuadrada). Son sucesivas, se toma en cuenta el ultimo resultado obtenido
+//Calculadora, operaciones: +, -, *, /, ^, r (raiz cuadrada). Son sucesivas, se toma en cuenta el ultimo resultado obtenido
 
 double procesoCalculo(int nroOpe);
 double calculadora (double *num1, char *operador, double *num2, double resultado, int i);
