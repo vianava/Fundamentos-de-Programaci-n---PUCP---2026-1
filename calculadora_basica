@@ -1,0 +1,131 @@
+#include <math.h>
+#include <stdio.h>
+
+//Calculadora, operaciones: /, -, *, /, ^, r (raiz cuadrada). Son sucesivas, se toma en cuenta el ultimo resultado obtenido
+
+double procesoCalculo(int nroOpe);
+double calculadora (double *num1, char *operador, double *num2, double resultado, int i);
+
+int main(void) {
+
+    int nroOpe, i;
+    double resultado;
+
+    printf("Ingrese el numero de operaciones sucesivas a realizar: ");
+    scanf("%d", &nroOpe);
+
+    if (nroOpe>=0) {
+        resultado=procesoCalculo(nroOpe);
+    }
+    else {
+        printf("El número de operaciones es inválido");
+    }
+
+    if (resultado=='!') {
+        printf("No se pudo realizar la operación");
+    }
+    else
+    printf("El Resultado es: %lf\n", resultado);
+    return 0;
+}
+
+double procesoCalculo(int nroOpe) {
+
+    int i=1, validez=1;
+    double num1, num2, resultado;
+    char operador;
+
+    while (i<=nroOpe) {
+
+        if (i==1) {
+            resultado=0;
+            printf("Ingrese la primera operación: ");
+            scanf("%lf \n%c %lf", &num1, &operador, &num2);
+            resultado=calculadora (&num1, &operador, &num2, resultado, i);
+
+            if (resultado=='!') {
+                printf("\nLa operación ingresada no es válida.\n");
+                validez=0;
+            }
+            else
+            printf("%lf\n", resultado);
+        }
+        else {
+            num1=0;
+            printf("Ingrese la siguiente operación a ejecutar: %lf", resultado);
+            scanf("\n%c %lf", &operador, &num2);
+            resultado=calculadora (&num1, &operador, &num2, resultado, i);
+            if (resultado=='!') {
+                printf("\nLa operación ingresada no es válida.\n");
+                validez=0;
+            }
+            else
+                printf("%lf\n", resultado);
+        }
+        if (validez) {
+            i++;
+        }
+        else {
+            i=nroOpe+1;
+            resultado='!';
+        }
+    }
+    return resultado;
+}
+
+
+
+double calculadora (double *num1, char *operador, double *num2, double resultado, int i) {
+
+    double operando1;
+    int validez=1;
+
+    if (i==1) {
+        operando1=*num1;
+    }
+    else {
+        operando1=resultado;
+    }
+
+    if (*operador=='+') {
+        resultado=operando1+*num2;
+    }
+    else if (*operador=='-') {
+        resultado=operando1-*num2;
+    }
+    else if (*operador=='*') {
+        resultado=operando1*(*num2);
+    }
+    else if (*operador=='/') {
+        if (*num2!=0) {
+            resultado=operando1/(*num2);
+        }
+        else {
+            validez=0;
+            printf("Math Error\n");
+        }
+    }
+    else if (*operador=='^') {
+        resultado=pow(operando1,*num2);
+    }
+    else if (*operador=='r') {
+        if (operando1>=0) {
+            resultado=sqrt(operando1);
+        }
+        else {
+            validez=0;
+            printf("Math Error\n");
+        }
+    }
+    else {
+        validez=0;
+        printf("Synthax Error\n");
+    }
+
+    if (validez) {
+        return resultado;
+    }
+    else {
+        return '!';
+    }
+}
