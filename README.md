@@ -8,7 +8,7 @@ Cada carpeta corresponde a un tema semanal visto en clase.
 
 ## Temas Cubiertos
 - Semana 01: Estructuctura basica de un programa
-- Semana 02:
+- Semana 02: Operadores Lógicos 
 - Semana 03 y 04: Control de Flujo - Selectivas simples, dobles y anidadas
 - Semana 05: Control de Flujo - Iterativas simples
 - Semana 06: Programación Modular
