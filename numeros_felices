@@ -1,0 +1,115 @@
+#include <math.h>
+#include <stdio.h>
+
+//programacion modular, para calcular si un numero es feliz o no
+
+int leer_datos(int *n);
+int cant_digitos(int n);
+int es_feliz(int n);
+double sum_digits_al_cuadrados(int n);
+int es_primo(int n);
+
+
+int main (void) {
+    //leer numero
+    int n, valido;
+    int esFeliz, esPrimo;
+    leer_datos(&n);
+    //validar numero
+    valido=cant_digitos(n);
+    if (valido) {
+        //es feliz?
+        esFeliz=es_feliz(n);
+        //es primo?
+        esPrimo=es_primo(n)+esFeliz;
+        //imprimir resultados
+        if (esPrimo==1) {
+            printf("El número %d es un número infeliz.", n);
+        }
+        else if (esPrimo==2) {
+            printf("El número %d es un número feliz.", n);
+        }
+        else if (esPrimo==4) {
+            printf("El número %d es un primo infeliz.", n);
+        }
+        else if (esPrimo==5) {
+            printf("El número %d es un primo feliz.", n);
+        }
+        return 0;
+    }
+    else
+        printf("El número %d no es un número de dos cifras.", n);
+
+}
+
+int leer_datos(int *n) {
+
+    printf("Ingrese un número de dos cifras: ");
+    scanf("%d", n);
+
+return *n;
+}
+
+int cant_digitos(int n) {
+    int valido;
+    valido=((n/10)>=1 && (n/10)<=10);
+    return valido;
+}
+
+int es_feliz(int n) {
+    char estado_de_animo;
+    double calculoDeCuadrados;
+
+    calculoDeCuadrados=sum_digits_al_cuadrados(n);
+
+    if (calculoDeCuadrados==1) {
+    estado_de_animo=2;
+    }
+    else
+        estado_de_animo=1;
+
+    return estado_de_animo;
+}
+
+double sum_digits_al_cuadrados(int n) {
+
+    int i=1, digito1, digito2, digito3, sum_squares, numero;
+    numero=n;
+
+    while (i<=8) {
+        digito1=numero/100;
+        digito2=(numero-(digito1*100))/10;
+        digito3=numero%10;
+        sum_squares=(pow(digito1,2))+(pow(digito2,2))+(pow(digito3,2));
+        numero=sum_squares;
+        if (sum_squares==1)
+        {i=9;
+        }
+        else
+            i++;
+
+    }
+    return sum_squares;
+    }
+
+
+int es_primo(int n) {
+
+    int i=1, cont_divisores=0;
+    double divisible;
+
+    while (i<=n) {
+        divisible=n%i==0;
+
+        if (divisible)
+            cont_divisores=cont_divisores+1;
+
+        i++;
+
+    }
+    if (cont_divisores==2)
+        return 3;
+    else
+        return 0;
+
+}
