@@ -1,0 +1,60 @@
+#include <stdio.h>
+
+void leer_numeros (int *numA, int *numB);
+int validar_amistad (int numA, int numB);
+int calcular_sumaDiv (int num);
+
+int main(void) {
+
+    int numA, numB;
+
+    leer_numeros(&numA, &numB);
+
+    if (numA>0 && numB>0) {
+        if (validar_amistad(numA, numB)) {
+            printf("Los números son amigos.\n");
+        }
+        else
+            printf("Los números ingresados no son amigos.");
+
+    }
+    else
+        printf("Los números ingresados deben ser positivos.");
+
+
+    return 0;
+}
+
+void leer_numeros (int *numA, int *numB) {
+    printf ("Ingrese los dos números a evaluar:");
+    scanf("%d %d", numA, numB);
+}
+
+int validar_amistad (int numA, int numB) {
+
+    int sumaDivA, sumaDivB;
+
+    sumaDivA=calcular_sumaDiv(numA);
+    sumaDivB=calcular_sumaDiv(numB);
+
+    if (sumaDivA==numB && sumaDivB==numA) {
+        return 1;
+    }
+    else
+        return 0;
+}
+
+int calcular_sumaDiv (int num) {
+
+    int i=1, resultado=0, dividible;
+
+    while (i<num) {
+        dividible=num%i==0;
+
+        if (dividible) {
+            resultado=resultado+i;
+        }
+        i++;
+    }
+    return resultado;
+}
