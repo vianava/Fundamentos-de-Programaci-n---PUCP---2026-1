@@ -1,0 +1,106 @@
+#include <math.h>
+#include <stdio.h>
+
+//Viana Velos Alcantara - 20250275
+
+int validar_datos(int n, int cant_dig);
+
+int main(void) {
+
+    int n, cant_dig, valido;
+
+    printf("Ingrese una clave y su cantidad de cifras: \n");
+    scanf("%d %d", &n, &cant_dig);
+
+    valido=validar_datos(n, cant_dig);
+
+    if (valido) {
+        int i=1, numero_cifrado, digito_extraido, acomulado=0, clave_cifrada=0,
+        par_mayor=0, par_previo=0, iteracion_cifrado=0, iteracion_numero=0,
+        cifra_previa=0, cifra_mayor=0, no_hay_pares_numero=0, no_hay_pares_clave=0, imprimir_cero=0;
+
+        while (i<=cant_dig) {
+
+            digito_extraido=n%10;
+
+            if (i%2==0) {
+                numero_cifrado=abs((digito_extraido-acomulado)%10);
+            }
+            else {
+                numero_cifrado=(digito_extraido+acomulado)%10;
+            }
+
+            acomulado=numero_cifrado+acomulado;
+            clave_cifrada=numero_cifrado+clave_cifrada*10;
+            n=n/10;
+
+            if (numero_cifrado%2==0) {
+                par_mayor=(par_previo>=numero_cifrado)*par_previo+(numero_cifrado>=par_previo)*numero_cifrado;
+
+                if (numero_cifrado>=par_previo) {
+                    iteracion_cifrado=cant_dig+1-i;
+                }
+                par_previo=numero_cifrado;
+            }
+            else
+                no_hay_pares_clave++;
+
+            if (digito_extraido%2==0) {
+                cifra_mayor=(digito_extraido>=cifra_previa)*digito_extraido+(cifra_previa>=digito_extraido)*cifra_previa;
+
+                if (digito_extraido>=cifra_previa) {
+                    iteracion_numero=i;
+                }
+                cifra_previa=digito_extraido;
+            }
+            else
+                no_hay_pares_numero++;
+
+            if (i==1) {
+                if (numero_cifrado==0) {
+                    imprimir_cero=1;
+                }
+            }
+
+            printf("Iteración: %d, Dígito: %d, Nuevo dígito: %d\n", i, digito_extraido, numero_cifrado);
+
+            i++;
+        }
+
+        if (imprimir_cero) {
+            printf("La clave cifrada es: 0%d\n", clave_cifrada);
+        }
+        else
+            printf("La clave cifrada es: %d\n", clave_cifrada);
+
+        printf("\n------RESUMEN-----\n");
+
+        if (no_hay_pares_numero==cant_dig) {
+            printf("No se encontraron dígitos pares en la clave\n");
+        }
+        else
+            printf("El mayor dígito par de la clave es: %d y se encuentra en la posición: %d\n", cifra_mayor, iteracion_numero);
+
+        if (no_hay_pares_clave==cant_dig){
+            printf("No se encontraron dígitos pares en la clave cifrada\n");
+        }
+        else
+            printf("El mayor dígito par de la clave cifrada es: %d y se encuentra en la posición: %d\n", par_mayor, iteracion_cifrado);
+
+    }
+    else
+        printf("Alguno de los datos ingresados no es válido");
+
+    return 0;
+}
+
+int validar_datos(int n, int cant_dig) {
+
+    int verf_dig, valido;
+
+    verf_dig=n/pow(10,cant_dig-1);
+
+    valido=(verf_dig>=1 && verf_dig<10) && cant_dig>=3 && cant_dig<=6;
+
+    return valido;
+}
