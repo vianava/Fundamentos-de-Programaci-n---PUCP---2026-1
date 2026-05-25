@@ -1,0 +1,99 @@
+#include <stdio.h>
+#include <math.h>
+
+void leer_datos(int *base, int *s1, int *s2);
+int validar_n(int base, int numero);
+int sumar_numeros(int base, int s1, int s2);
+
+int main(void) {
+
+    int base, s1, s2, suma, n1_bien, n2_bien, valido;
+
+    leer_datos(&base,&s1,&s2);
+    n1_bien=validar_n(base,s1);
+    n2_bien=validar_n(base,s2);
+    valido= n1_bien*n2_bien;
+
+    if (valido) {
+
+        suma=sumar_numeros(base,s1,s2);
+        printf("El resultado de la suma es: %d(%d) ",suma,base);
+
+    }
+    else if (n1_bien==0 && n2_bien==1) {
+        printf("Lo siento, el primer número no es válido.");
+    }
+    else if (n2_bien==0 && n1_bien==1) {
+        printf("Lo siento, el segundo número no es válido.");
+    }
+    else
+        printf(" Lo siento, los números no son válidos.");
+
+    return 0;
+}
+
+
+void leer_datos(int *base, int *s1, int *s2) {
+
+    printf("Ingrese la base (1 < base <=10): \n");
+    scanf("%d", base);
+    printf("Ingrese el primer sumando: \n");
+    scanf("%d", s1);
+    printf("Ingrese el segundo sumando: \n");
+    scanf("%d", s2);
+
+}
+
+int validar_n(int base, int numero) {
+
+    int valido=base<=10;
+
+    if (valido) {
+        valido=(numero/1000)<1;
+        if (valido) {
+
+            int i=1, n;
+
+            while (i<=3) {
+
+                n=numero%10;
+                if (n<base) {
+                    i++;
+                }
+                else
+                    i=5;
+
+                numero=numero/10;
+            }
+
+            if (i==5) {
+                valido=0;
+            }
+        }
+    }
+    return valido;
+}
+
+int sumar_numeros(int base, int s1, int s2) {
+
+    int i=1, digitoDe1, digitoDe2, suma=0, sumatotal=0, acarreo=0;
+
+    while (i<=4) {
+
+        if (i<=3) {
+            digitoDe1=s1%10;
+            digitoDe2=s2%10;
+
+            suma=digitoDe1+digitoDe2+acarreo;
+            sumatotal+=(suma%base)*(int)pow(10,i-1);
+            acarreo=suma/base;
+
+            s1=s1/10;
+            s2=s2/10;
+        }
+        else
+            sumatotal+=acarreo*1000;
+        i++;
+    }
+    return sumatotal;
+}
