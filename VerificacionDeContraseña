@@ -1,0 +1,117 @@
+#include <math.h>
+#include <stdio.h>
+
+void leer_datos(int *password);
+int es_de_seis_cifras(int password);
+int todas_cifras_iguales (int password);
+int tiene_ceros(int password);
+void menor_digito (int password, int *min_digito, int *max_digito);
+
+int main(void) {
+
+    int password, min_digito, pos_digito, valido=0;
+
+    leer_datos(&password);
+
+    if (es_de_seis_cifras(password)) {
+        valido++;
+        printf("Tiene 6 cifras.\n");
+
+        if (todas_cifras_iguales(password)) {
+            valido++;
+            printf("Todas sus cifras son iguales.\n");
+        }
+
+        if (tiene_ceros(password)) {
+            valido++;
+            printf("Tiene ceros.\n");
+        }
+
+        menor_digito(password, &min_digito, &pos_digito);
+
+        if (pos_digito==1 || todas_cifras_iguales(password)) {
+            valido++;
+            printf("El dígito menor es %d y está en la primera posición.\n", min_digito);
+        }
+
+    }
+    else
+        printf("No tiene 6 cifras\n");
+
+    if (valido>=1) {
+        printf("Lo sentimos, la contraseña ingresada no es correcta.");
+    }
+    else
+        printf("La contraseña ingresada es válida.");
+
+
+    return 0;
+}
+
+void leer_datos(int *password) {
+
+    printf("Ingrese su contraseña: \n");
+    scanf("%d", password);
+
+}
+
+int es_de_seis_cifras(int password) {
+
+    int valido=(password/100000)>=1 && (password/100000)<10;
+
+    return valido;
+}
+
+int todas_cifras_iguales (int password) {
+
+    int i=1, n, cifraAnterior=0, iguales=0;
+
+    while (i<=6) {
+
+        n=password%10;
+
+        iguales=n==cifraAnterior;
+        cifraAnterior=n;
+        password=password/10;
+
+        i++;
+    }
+    return iguales;
+}
+
+int tiene_ceros (int password) {
+    int i=1, n, hay_ceros=0;
+
+    while (i<=6) {
+        n=password%10;
+
+        if (n==0) {
+            i=7;
+            hay_ceros=1;
+        }
+        else {
+            password/=10;
+            i++;
+        }
+    }
+    return hay_ceros;
+}
+
+void menor_digito (int password, int *min_digito, int *posicion) {
+
+    int i=1, n;
+
+    while (i<=6) {
+
+        n=password/(int)pow(10,6-i);
+
+        if (i==1) {
+            *min_digito=n;
+        }
+        else {
+            *posicion=(*min_digito<=n);
+        }
+        password%=(int)pow(10,6-i);
+        i++;
+    }
+}
