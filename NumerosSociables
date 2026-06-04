@@ -1,0 +1,66 @@
+#include <stdio.h>
+
+int es_Primo (int numero);
+void calcularSumaDivisores (int numero, int *sumaDiv);
+
+
+int main(void) {
+
+    int n=1, i=1, sonSociables=0, sumaDiv, nextNum;
+
+    while (n!=0) {
+
+        printf("Ingrese el número %d: ", i);
+        scanf("%d", &n);
+
+        if (es_Primo(n))
+            printf("El número es Primo\n");
+        else if (n==0)
+            break;
+        else {
+            calcularSumaDivisores(n, &sumaDiv);
+            if (nextNum==n) {
+                sonSociables=1;
+            }
+            else
+                sonSociables=0;
+            i++;
+            nextNum = sumaDiv;
+        }
+    }
+
+    if (sonSociables) {
+        printf("Los números ingresados son sociables.");
+    }
+    else
+        printf("Los números ingresados no son sociables.");
+    return 0;
+}
+///// Verifica que es primo
+int es_Primo (int numero) {
+    int sumaDiv=0;
+    for (int i=1; i<=numero; i++) {
+        if (numero % i == 0) {
+            sumaDiv++;
+        }
+    }
+    if (sumaDiv==2) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+/// Calcular suma de Divisores
+void calcularSumaDivisores (int numero, int *sumaDiv) {
+    int i, sumDiv=0;
+
+    for (i=1; i<numero; i++) {
+        if (numero % i == 0) {
+            sumDiv+=i;
+        }
+    }
+    printf("%d\n", sumDiv);
+    *sumaDiv=sumDiv;
+}
+
