@@ -1,0 +1,52 @@
+#include <stdio.h>
+
+int main(void) {
+
+    int start_year, end_year;
+
+    printf("Ingrese el año de inicio:\n");
+    scanf("%d", &start_year);
+    printf("Ingrese el año fin: \n");
+    scanf("%d", &end_year);
+
+    int i, mes, year;
+
+    for (i = start_year; i <= end_year; i++) {
+
+        year=i%100;
+
+        for (mes = 1; mes <= 12; mes++) {
+
+            if (year%mes==0 && year/mes<=31 && year/mes>0) {
+
+                int valid_date=1;
+
+                switch (mes) {
+
+                    case 11:
+                    case 9:
+                    case 6:
+                    case 4:
+                        if (year/mes==31) {
+                            valid_date=0;
+                        }
+                        break;
+
+                    case 2:
+                        if (year%400==0 || year%4==0 && year%100!=0) {
+                            if ((double)year/mes>29) {
+                                valid_date=0;
+                            }
+                        }
+                        else if (year/mes>28) {
+                            valid_date=0;
+                        }
+                }
+                if (valid_date) {
+                    printf("%d/%d/%d\n", year/mes, mes, i);
+                }
+            }
+        }
+    }
+    return 0;
+}
