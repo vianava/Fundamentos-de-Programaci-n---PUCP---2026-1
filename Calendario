@@ -1,0 +1,157 @@
+#include <stdio.h>
+
+void ValidarDatos(int mes, int year, int *valido);
+void CondMesYear (int *dias, int mes, int year, int *Dia1);
+
+void ImprimirCalendario(int mes, int year);
+
+int main(void) {
+
+    int valido;
+
+    do {
+        int mes, year;
+
+        printf("Ingrese el mes:");
+        scanf("%d", &mes);
+        printf("Ingrese el año:");
+        scanf("%d", &year);
+
+        ValidarDatos(mes, year, &valido);
+
+        if (valido) {
+
+            printf("D\tL\tM\tX\tJ\tV\tS\n");
+            ImprimirCalendario(mes, year);
+
+        }
+    }
+    while (valido!=2);
+
+    return 0;
+}
+
+void ValidarDatos(int mes, int year, int *valido) {
+
+    *valido=mes>=1 && mes<=12 && year>=2000 && year<=2099;
+
+    if (mes==0 && year==0) {
+        *valido=2;
+    }
+    else if (mes>12 || mes<0) {
+        printf("El mes ingresado no es correcto\n");
+    }
+    else if (year>2099 || year<2000) {
+        printf("El año ingresado no es correcto\n");
+    }
+
+}
+
+void ImprimirCalendario(int mes, int year) {
+
+    int Dia1, i=0, dias, j=2;
+
+    CondMesYear(&dias, mes, year, &Dia1);
+
+    while (i<Dia1) {
+        printf("\t");
+        if (i==Dia1-1) {
+            printf("01\t");
+        }
+        i++;
+    }
+    Dia1++;
+
+    for (j=2;j<=dias;j++) {
+
+        if (Dia1<6) {
+            if (j<10) {
+                printf("0%d\t", j);
+            }
+            else
+                printf("%d\t", j);
+            Dia1++;
+        }
+        else {
+            if (j<10) {
+                printf("0%d\n", j);
+            }
+            else
+                printf("%d\n", j);
+            Dia1=0;
+        }
+
+        if (j==dias) {
+            printf("\n");
+        }
+
+        }
+}
+
+void CondMesYear (int *dias, int mes, int year, int *Dia1) {
+    int B, C, D=0, E=1, XX;
+
+    XX=year%100;
+    B=(XX)+(int)((XX)/4);
+
+    if ((year%4==0 && year%100!=0) && (year%400==0) && (mes==1 || mes==2)) {
+        C=-1;
+    }
+    else {
+        C=0;
+    }
+
+    switch (mes) {
+        case 1:
+        case 10:
+            D=6;
+            break;
+        case 2:
+        case 3:
+        case 11:
+            D=2;
+            break;
+        case 4:
+        case 7:
+            D=5;
+            break;
+        case 5:
+            D=0;
+            break;
+        case 6:
+            D=3;
+            break;
+        case 8:
+            D=1;
+            break;
+        case 9:
+        case 12:
+            D=4;
+            break;
+    }
+
+    *Dia1=(B+C+D+E)%7;
+
+    switch (mes) {
+        case 1:
+        case 3:
+        case 5:
+        case 7:
+        case 8:
+        case 10:
+        case 12:
+            *dias=31;
+            break;
+        case 2:
+            if ((year%4==0 && year%100!=0) || year%400==0) {
+                *dias=29;
+            }
+            else
+                *dias=28;
+            break;
+        default:
+            *dias=30;
+
+    }
+
+}
