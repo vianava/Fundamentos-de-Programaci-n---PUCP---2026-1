@@ -1,0 +1,127 @@
+#include <math.h>
+#include <stdio.h>
+
+int ValidarRango (int RanIni, int RanFin);
+int validarNumero (int RanIni);
+int InvertirNum (int num);
+void RangoMayor(int RanIni, int RanFin, int *MenRanIni, int *MenRanFin, int contadorMagicos, int contMenorMagicos);
+
+int main(void) {
+
+    int RanIni, RanFin, contadorRangos=0, MenRanIni, MenRanFin, contMenorMagicos=900;
+
+    do {
+
+        int NumInvertido, difCifras, RestaInvertida, contadorMagicos=0, suma, totalNum;
+
+        printf("Ingrese el rango de n´úmeros (números de 3 cifras):\n");
+        scanf("%d %d", &RanIni, &RanFin);
+
+        if (ValidarRango(RanIni, RanFin)) {
+
+            printf("En el rango %d - %d\n", RanIni, RanFin);
+            totalNum=RanFin-RanIni+1;
+
+            while (RanIni <= RanFin) {
+
+                if (validarNumero(RanIni)) {
+
+                    NumInvertido=InvertirNum(RanIni);
+                    difCifras=abs(NumInvertido-RanIni);
+                    RestaInvertida=InvertirNum(difCifras);
+
+                    suma=RestaInvertida+difCifras;
+
+                    if (suma==1089) {
+                        contadorMagicos++;
+                    }
+
+                }
+
+                RanIni++;
+            }
+
+            contadorRangos++;
+            double porcentaje=(double)contadorMagicos/(totalNum)*100;
+
+            printf("==================REPORTE====================\n");
+            printf("Total de números:%d \n", totalNum);
+            printf("Números mágicos: %d\n", contadorMagicos);
+            printf("Porcentaje de %.2lf porciento\n", porcentaje);
+            printf("----------------------------------------------\n");
+
+            RangoMayor(RanIni, RanFin, &MenRanIni, &MenRanFin, contadorMagicos, contMenorMagicos);
+
+        }
+        else if (RanIni<=0 || RanFin<=0) {
+            break;
+        }
+        else {
+            printf("El rango ingresado es incorrecto\n");
+        }
+
+    }
+    while (1);
+
+    if (contadorRangos>0) {
+        printf("El rango de números %d - %d tuvo la menor cantidad de números mágicos.", MenRanIni, MenRanFin);
+    }
+    else
+        printf("Ningún rango tuvo la menor cantidad de números mágicos");
+    return 0;
+}
+
+int ValidarRango (int RanIni, int RanFin) {
+
+    int valido=RanFin>RanIni && RanIni>=100;
+
+    return valido;
+}
+
+int validarNumero (int n) {
+    int i=1, digPrim=0, dig=0;
+
+    while (n>0) {
+        if (i==1) {
+            digPrim=n%10;
+        }
+        else {
+            dig=n%10;
+        }
+
+        if (n%10==0) {
+            return 0;
+        }
+
+        i++;
+        n/=10;
+    }
+    int NumValido=abs(digPrim-dig);
+
+    return NumValido;
+}
+
+int InvertirNum (int num) {
+
+    int nuevoNum=0,dig;
+
+    while (num>0) {
+
+        dig=num%10;
+
+        nuevoNum=nuevoNum*10+dig;
+
+        num/=10;
+    }
+
+    return nuevoNum;
+}
+
+void RangoMayor(int RanIni, int RanFin, int *MenRanIni, int *MenRanFin, int contadorMagicos, int contMenorMagicos) {
+
+    if (contadorMagicos<contMenorMagicos) {
+        *MenRanIni=RanIni;
+        *MenRanFin=RanFin;
+    }
+
+}
