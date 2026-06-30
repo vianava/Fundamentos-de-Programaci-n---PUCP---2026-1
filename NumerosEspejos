@@ -1,0 +1,107 @@
+Algoritmo NumerosEspejos
+	
+	centinela<-Verdadero
+	ContadorEspejos<-0
+	
+	Mientras centinela=Verdadero Hacer
+		
+		Escribir "Ingrese dos n�meros a evaluar:"
+		Leer num1
+		Leer num2
+		
+		N1<-num1
+		N2<-num2
+		
+		Si num1>0 y num2>0 Entonces
+			
+			i<-1
+			
+			Si  num1<0 o num2<0 Entonces
+				centinela<-Falso
+			Fin Si
+			
+			Mientras num1>0 y num2>0 Hacer
+				
+				digitoN1<-num1 mod 10
+				digitoN2<- num2 mod 10
+				
+				cumple<-Verdadero
+				
+				Si i=1 Entonces
+					diferenciaprevia<-abs(digitoN1-digitoN2)
+				SiNo
+					diferencia<-abs(digitoN1-digitoN2)
+					
+					Si i>=2 Entonces
+						Si diferencia<>diferenciaprevia Entonces
+							
+							Si diferencia>diferenciaprevia Entonces
+								MenMay<-Verdadero
+								MayMen<-Falso
+							SiNo
+								Si diferenciaprevia>diferencia Entonces
+									MayMen<-Verdadero
+									MenMay<-Falso
+								FinSi
+							Fin Si
+						SiNo
+							Si MayMen Entonces
+								Si diferencia>diferenciaprevia Entonces
+									MenMay<-Verdadero
+									MayMen<-Falso
+								Fin Si
+							SiNo
+								Si MenMay Entonces
+									Si diferencia>diferenciaprevia Entonces
+										MayMen<-Verdadero
+										MenMay<-Falso
+									SiNo
+										MayMen<-Falso
+										MenMay<-Falso
+									Fin Si
+								Fin Si
+							Fin Si
+						Fin Si
+						i<-i+1
+					FinSi
+					diferenciaprevia<-diferencia
+				Fin Si
+				
+				i<-i+1
+				num1<-trunc(num1/10)
+				num2<-trunc(num2/10)
+				
+				
+			Fin Mientras
+			
+			Si (MayMen=Verdadero y MayMen=Falso) o (MenMay=Verdadero y MayMen=falso) Entonces
+				
+				ContadorEspejos<-ContadorEspejos+1
+				EScribir "Los n�meros ", N1 " y ", N2 " son entrelazados espejos"
+			SiNo
+				Escribir "Los n�meros ", N1 " y ", N2 " no son entrelazados espejos"
+			Fin Si
+			
+		SiNo
+			centinela<-Falso
+		Fin Si
+		
+	Fin Mientras
+	
+	j<-1
+	contDivEspejos<-0
+	Mientras j<=ContadorEspejos Hacer
+		Si ContadorEspejos mod j = 0 Entonces
+			contDivEspejos<-contDivEspejos+1
+		Fin Si
+		j<-j+1
+	Fin Mientras
+	
+	Si contDivEspejos=2 Entonces
+		Escribir "Se encontr� ", ContadorEspejos  " n�meros entrelazados  y esta cantidad es un n�mero primo."
+	SiNo
+		Escribir "Se encontr� ", ContadorEspejos  " n�meros entrelazados  y esta cantidad es no es un n�mero primo."
+	Fin Si
+	
+	
+FinAlgoritmo
