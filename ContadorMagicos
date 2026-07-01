@@ -73,7 +73,7 @@ int main(void) {
 
 int ValidarRango (int RanIni, int RanFin) {
 
-    int valido=RanFin>RanIni && RanIni>=100;
+    int valido=RanFin>RanIni && RanIni>=100 && RanFin<1000;
 
     return valido;
 }
